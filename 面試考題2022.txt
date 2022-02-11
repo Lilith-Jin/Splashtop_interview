@@ -1,0 +1,35 @@
+1. 小明要測試個api, 當他執行第一次API成功, 但接下來執行第二次API時卻失敗, 請問你猜測失敗的原因有可能是什麼?
+
+first_time_return_success = SFDC.fetch_data(name: 'Peter', age: 22, address:'台北市大安區忠孝東路一段66號')
+second_time_return_error = SFDC.fetch_data(name: '武田製藥', age: 200, address:'台北市永和區中山路66巷', sex: 'Man', size: 'M')
+
+A:1.網路不穩定 
+  2.沒有sex和size這兩個欄位 
+
+
+2. 延伸上題, 你猜測可能失敗的原因, 你會想要用什麼資料去試打API來驗證你猜測可能失敗的原因? (請試著用rspec 來寫測試)
+請參考test_api資料夾
+
+3. 請試著去了解 Saleforce 這家公司提供的 Apex REST api. 請試著解釋Saleforce 是做何用途? 為何要使用APEX api ? (請詳述你的理解過程)
+首先我用關鍵字Saleforce Documention Apex查詢，了解Saleforce的服務，進一步了解Saleforce解決的問題、產品如何使用、產品的邏輯與應用，最後實際註冊做使用。
+
+Saleforce其又稱作SFDC，專精於客戶關係管理（CRM)，就銷售、客戶服務、行銷、社群、應用程式、分析等層面，與客戶交流互動。 透過 Salesforce 雲端運算模型CRM解決方案可快速自訂和擴充規模，以滿足中小企業及大型企業的成長需求。Salesforce CRM SaaS (軟體即服務)的作法，並搭配 Force.com PaaS (平台即服務)，達成多工作業，節省許多時間，同時，雲端運算模式正將客戶關係管理市場轉型為永久租用模式，企業不必再費力採購、安裝、維護或升級軟體或硬體，有了雲端運算服務，隨時打開瀏覽器就可以做使用
+
+我參考文件https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_dev_guide.htm
+與文章 https://hevodata.com/learn/salesforce-apex-rest-apis/#example1 來理解APEX api，特色主要有以下兩點：
+(1)節省開發人員學習歷程，由於程式碼的撰寫簡易與簡潔，讓外部的開發人員透過撰寫APEX代碼取得salesforce的資料
+(2)遵守RESTful風格介面，使開發人員有能力可以自定義邏輯，可以在salesforce這套軟體去客製化設計功能
+
+
+4. 假設你有一個 5000萬筆資料的 user_logs table.
+今天假如我想要刪除 user_logs 的 updated_at < 1.year.ago (約有500萬筆).
+
+請寫出一個 rake 去刪除這些 500 萬筆的資料.
+(提示: 請使用對db與system系統影響越小與最有效率的方式去撰寫.在不考慮停機的情況下)
+
+環境: 該資料庫環境有讀寫分離. 只要是使用 where, Rails 都會連到 readonly 主機, 但是執行 delete 時會自動切到. write 主機.
+
+UserLog.where("updated_at < ?", 1.year.ago)
+...
+...
+...
